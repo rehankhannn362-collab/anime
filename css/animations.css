@@ -1,0 +1,211 @@
+/* ==========================================================================
+   AnimeVerse - Advanced Keyframes & Dynamic Motion
+   ========================================================================== */
+
+/* Animated Moving Text Gradient */
+@keyframes text-gradient-shift {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.animated-gradient-text {
+    background: linear-gradient(90deg, #ff2a85, #ffd166, #00f0ff, #9d4edd, #ff2a85);
+    background-size: 300% 300%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: text-gradient-shift 6s ease infinite;
+}
+
+/* Floating Levitation */
+@keyframes float-levitate {
+    0%, 100% {
+        transform: translateY(0px) rotate(0deg);
+    }
+    50% {
+        transform: translateY(-16px) rotate(1deg);
+    }
+}
+
+.float-anim {
+    animation: float-levitate 5s ease-in-out infinite;
+}
+
+/* Slow Floating (for ambient badges & orbs) */
+@keyframes float-slow {
+    0%, 100% {
+        transform: translateY(0) translateX(0);
+    }
+    50% {
+        transform: translateY(-10px) translateX(6px);
+    }
+}
+
+.float-slow {
+    animation: float-slow 7s ease-in-out infinite;
+}
+
+/* Pulsing Neon Glow */
+@keyframes pulse-neon {
+    0%, 100% {
+        box-shadow: 0 0 15px var(--pink-glow), 0 0 30px var(--pink-glow);
+    }
+    50% {
+        box-shadow: 0 0 25px var(--pink-glow-strong), 0 0 50px var(--pink-glow);
+    }
+}
+
+.pulse-glow {
+    animation: pulse-neon 3s infinite ease-in-out;
+}
+
+/* Pulsing Cyan Glow */
+@keyframes pulse-cyan {
+    0%, 100% {
+        box-shadow: 0 0 15px var(--cyan-glow), 0 0 30px var(--cyan-glow);
+    }
+    50% {
+        box-shadow: 0 0 25px var(--cyan-glow-strong), 0 0 50px var(--cyan-glow);
+    }
+}
+
+.pulse-cyan-glow {
+    animation: pulse-cyan 3.5s infinite ease-in-out;
+}
+
+/* Glowing Aura Expansion */
+@keyframes aura-breath {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 0.55;
+    }
+    50% {
+        transform: scale(1.12);
+        opacity: 0.85;
+    }
+}
+
+.aura-pulse {
+    animation: aura-breath 4s ease-in-out infinite;
+}
+
+/* Glowing Border Sweep */
+@keyframes border-glow-sweep {
+    0% {
+        filter: hue-rotate(0deg);
+    }
+    100% {
+        filter: hue-rotate(360deg);
+    }
+}
+
+.border-sweep {
+    animation: border-glow-sweep 12s linear infinite;
+}
+
+/* Spinning Slow (HUD rings / decorative dials) */
+@keyframes spin-clockwise {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.spin-slow {
+    animation: spin-clockwise 24s linear infinite;
+}
+
+@keyframes spin-counter {
+    from {
+        transform: rotate(360deg);
+    }
+    to {
+        transform: rotate(0deg);
+    }
+}
+
+.spin-counter {
+    animation: spin-counter 20s linear infinite;
+}
+
+/* Scroll Indicator Bounce */
+@keyframes scroll-bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(8px);
+    }
+    60% {
+        transform: translateY(4px);
+    }
+}
+
+.scroll-indicator-bounce {
+    animation: scroll-bounce 2.2s infinite;
+}
+
+/* Shimmer Light Streak */
+@keyframes light-streak {
+    0% {
+        transform: translateX(-100%) translateY(-100%) rotate(45deg);
+        opacity: 0;
+    }
+    30% {
+        opacity: 0.8;
+    }
+    60% {
+        opacity: 0.8;
+    }
+    100% {
+        transform: translateX(200%) translateY(200%) rotate(45deg);
+        opacity: 0;
+    }
+}
+
+.ambient-streak {
+    position: absolute;
+    width: 2px;
+    height: 120px;
+    background: linear-gradient(180deg, transparent, #00f0ff, #ff2a85, transparent);
+    animation: light-streak 6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    pointer-events: none;
+}
+
+/* Fade in and Up entrance */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in-up {
+    animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Japanese Kanji Subtle Pulse */
+@keyframes kanji-shimmer {
+    0%, 100% {
+        text-shadow: 0 0 10px rgba(0, 240, 255, 0.4), 0 0 20px rgba(255, 42, 133, 0.2);
+    }
+    50% {
+        text-shadow: 0 0 20px rgba(0, 240, 255, 0.9), 0 0 40px rgba(255, 42, 133, 0.6);
+    }
+}
+
+.kanji-glow {
+    animation: kanji-shimmer 4s ease-in-out infinite;
+}

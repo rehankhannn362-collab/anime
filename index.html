@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AnimeVerse | Premium Anime & Manga Cyber Hub</title>
+    <meta name="description" content="AnimeVerse - Where anime worlds come alive. A futuristic Japanese anime streaming and manga discovery platform.">
+
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌸</text></svg>">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/components.css">
+</head>
+<body>
+
+    <!-- Sakura Petals Canvas Particle Engine -->
+    <canvas id="sakura-canvas"></canvas>
+
+    <!-- 1. GLASSMORPHISM NAVIGATION BAR -->
+    <header class="navbar" id="main-navbar">
+        <div class="container nav-container">
+            <!-- Brand Logo -->
+            <a href="#hero" class="brand-logo" aria-label="AnimeVerse Home">
+                <div class="brand-badge">ア</div>
+                <span class="brand-text">Anime<span>Verse</span></span>
+                <span class="brand-dot"></span>
+            </a>
+
+            <!-- Navigation Links Menu -->
+            <nav>
+                <ul class="nav-menu" id="nav-links-menu">
+                    <li><a href="#hero" class="nav-link active">Home</a></li>
+                    <li><a href="#anime" class="nav-link">Anime</a></li>
+                    <li><a href="#manga" class="nav-link">Manga</a></li>
+                    <li><a href="#characters" class="nav-link">Characters</a></li>
+                    <li><a href="#schedule" class="nav-link">Schedule</a></li>
+                    <li><a href="#about" class="nav-link">About</a></li>
+                    <li><a href="#contact" class="nav-link">Contact</a></li>
+                </ul>
+            </nav>
+
+            <!-- Nav Action Controls -->
+            <div class="nav-actions">
+                <!-- Quick Search Trigger -->
+                <button class="icon-btn" onclick="window.animeApp.openSearchModal()" title="Search Anime (Ctrl+K)" aria-label="Search Anime">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"/>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                    </svg>
+                </button>
+
+                <!-- Sakura Petals Toggle -->
+                <button class="icon-btn active" id="sakura-toggle-btn" title="Toggle Sakura Petals" aria-label="Toggle Sakura Petals">
+                    🌸
+                </button>
+
+                <!-- Audio Synth Ambience Toggle -->
+                <button class="icon-btn" id="audio-toggle-btn" title="Toggle Cyberpunk Anime Synth Music & SFX" aria-label="Toggle Ambient Audio">
+                    🎵
+                </button>
+
+                <!-- Saved Watchlist Button -->
+                <button class="icon-btn" onclick="window.animeApp.showWatchlistModal()" title="View Watchlist" aria-label="View Watchlist">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+                    </svg>
+                    <span class="badge-count watchlist-counter" style="display: none;">0</span>
+                </button>
+
+                <!-- Mobile Hamburger Toggle -->
+                <button class="mobile-toggle" id="mobile-menu-toggle" aria-label="Toggle Navigation Menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- 2. HERO SECTION -->
+    <section class="hero-section" id="hero">
+        <!-- Ambient Glowing Background Orbs & Streaks -->
+        <div class="hero-background-layer">
+            <div class="hero-orb hero-orb-1"></div>
+            <div class="hero-orb hero-orb-2"></div>
+            <div class="hero-orb hero-orb-3"></div>
+            <div class="ambient-streak" style="top: 15%; left: 20%;"></div>
+            <div class="ambient-streak" style="top: 40%; right: 15%; animation-delay: 2.5s;"></div>
+        </div>
+
+        <div class="container hero-layout">
+            <!-- Hero Left: Typography & Call To Actions -->
+            <div class="hero-content fade-in-up">
+                <div class="hero-tag">
+                    <span class="tag-pulse"></span>
+                    <span class="kanji-glow">アニメバース 2026</span> • PREMIUM CYBER EDITION
+                </div>
+
+                <h1 class="hero-title">
+                    <span class="title-kanji">「アニメの世界へようこそ」</span>
+                    WELCOME TO <br>
+                    <span class="animated-gradient-text">ANIMEVERSE</span>
+                </h1>
+
+                <p class="hero-subtitle">Where anime worlds come alive.</p>
+
+                <p class="hero-desc">
+                    Immerse yourself into an endless universe of legendary Shonen battles, dark fantasy chronicles, and timeless manga masterpieces with ultra-crisp 4K streaming and rich interactive lore.
+                </p>
+
+                <div class="hero-buttons">
+                    <a href="#anime" class="btn btn-primary">
+                        <span>EXPLORE ANIME</span>
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+                            <polygon points="5 3 19 12 5 21 5 3"/>
+                        </svg>
+                    </a>
+
+                    <a href="#manga" class="btn btn-secondary">
+                        <span>DISCOVER MANGA</span>
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+                            <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+                        </svg>
+                    </a>
+                </div>
+
+                <!-- Hero Metrics Ticker -->
+                <div class="hero-stats">
+                    <div class="hero-stat-item">
+                        <span class="stat-num">2,500+</span>
+                        <span class="stat-label">Anime Series</span>
+                    </div>
+                    <div class="hero-stat-item">
+                        <span class="stat-num">10,000+</span>
+                        <span class="stat-label">Manga Chapters</span>
+                    </div>
+                    <div class="hero-stat-item">
+                        <span class="stat-num text-gold">99.8%</span>
+                        <span class="stat-label">User Score</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hero Right: Floating Anime Character Graphic with 3D Parallax -->
+            <div class="hero-visual">
+                <div class="hero-aura aura-pulse"></div>
+                <div class="hero-character-wrap float-anim">
+                    <div class="hero-character-card">
+                        <img src="https://cdn.myanimelist.net/images/anime/1244/138851.jpg" alt="Anime Hero Mascot" class="hero-char-img" />
+                        <div class="hero-char-badge">
+                            <div>
+                                <h4>ONE PIECE: EGGHEAD</h4>
+                                <span>Global Broadcast Live</span>
+                            </div>
+                            <span class="badge-live-dot">AIRING NOW</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scroll Down Indicator -->
+        <a href="#anime" class="hero-scroll-down scroll-indicator-bounce" aria-label="Scroll to explore">
+            <span>SCROLL TO EXPLORE</span>
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M7 13l5 5 5-5M7 6l5 5 5-5"/>
+            </svg>
+        </a>
+    </section>
+
+    <!-- 3. STICKY FILTER & SEARCH CONTROL BAR -->
+    <div class="filter-search-section">
+        <div class="container filter-bar-wrapper">
+            <!-- Filter Category Pills -->
+            <div class="filter-chips-list">
+                <button class="filter-chip active" data-filter="all">All Genres</button>
+                <button class="filter-chip" data-filter="shonen">Shonen Legends</button>
+                <button class="filter-chip" data-filter="dark-fantasy">Dark Fantasy</button>
+                <button class="filter-chip" data-filter="action">Action & Adventure</button>
+                <button class="filter-chip" data-filter="supernatural">Supernatural</button>
+            </div>
+
+            <!-- Search & Sort Controls -->
+            <div class="search-sort-group">
+                <div class="search-input-wrap">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"/>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                    </svg>
+                    <input type="text" id="anime-search-input" placeholder="Search anime or studio..." aria-label="Search Anime" />
+                </div>
+
+                <div class="sort-select-wrap">
+                    <select id="anime-sort-select" aria-label="Sort Anime By">
+                        <option value="rating">Sort: Top Rated ⭐</option>
+                        <option value="episodes">Sort: Most Episodes 📺</option>
+                        <option value="title">Sort: Alphabetical (A-Z)</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 4. POPULAR ANIME SECTION -->
+    <section class="anime-section" id="anime">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-badge">
+                    <span class="kanji">人気作</span> FEATURED ANTHOLOGY
+                </div>
+                <h2 class="section-title">POPULAR <span class="highlight">ANIME</span></h2>
+                <p class="section-subtitle">Discover the most critically acclaimed and highest rated anime series across global rankings.</p>
+            </div>
+
+            <!-- Anime Responsive 3D Grid -->
+            <div class="anime-grid" id="anime-grid">
+                <!-- Dynamically populated via app.js -->
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. MANGA DISCOVERY SHOWCASE -->
+    <section class="manga-section" id="manga">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-badge">
+                    <span class="kanji">漫画文庫</span> GRAPHIC MASTERPIECES
+                </div>
+                <h2 class="section-title">DISCOVER <span class="highlight">MANGA</span></h2>
+                <p class="section-subtitle">Explore timeless literary works, legendary serialized chapters, and intricate original illustrations.</p>
+            </div>
+
+            <div class="manga-grid" id="manga-grid">
+                <!-- Dynamically populated via app.js -->
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. CHARACTER VAULT SPOTLIGHT -->
+    <section class="character-section" id="characters">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-badge">
+                    <span class="kanji">英雄録</span> LEGENDARY HEROES
+                </div>
+                <h2 class="section-title">CHARACTER <span class="highlight">VAULT</span></h2>
+                <p class="section-subtitle">Inspect iconic protagonists, tactical powers, signature domain techniques, and combat statistics.</p>
+            </div>
+
+            <!-- Character Avatar Selector Tabs -->
+            <div class="char-selector-row" id="char-selector-list">
+                <!-- Populated via app.js -->
+            </div>
+
+            <!-- Spotlight Display Card -->
+            <div id="char-showcase-display">
+                <!-- Populated via app.js -->
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. AIRING SCHEDULE SECTION -->
+    <section class="schedule-section" id="schedule">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-badge">
+                    <span class="kanji">放送時間</span> BROADCAST RADAR
+                </div>
+                <h2 class="section-title">AIRING <span class="highlight">SCHEDULE</span></h2>
+                <p class="section-subtitle">Never miss a weekly release with Tokyo synchronous broadcast countdowns and alerts.</p>
+            </div>
+
+            <!-- Day Tabs -->
+            <div class="schedule-day-tabs" id="schedule-day-tabs">
+                <!-- Populated via app.js -->
+            </div>
+
+            <!-- Schedule List Content -->
+            <div id="schedule-day-content">
+                <!-- Populated via app.js -->
+            </div>
+        </div>
+    </section>
+
+    <!-- 8. ABOUT & COMMUNITY / NEWSLETTER -->
+    <section class="about-section" id="about">
+        <div class="container">
+            <div class="about-grid">
+                <div class="about-card">
+                    <div class="section-badge">
+                        <span class="kanji">概要</span> NEXT-GEN PLATFORM
+                    </div>
+                    <h3 class="section-title" style="text-align: left; font-size: 2rem;">THE FUTURE OF <span class="highlight">ANIME</span></h3>
+                    <p style="color: #94a3b8; margin-bottom: 20px;">
+                        AnimeVerse is crafted with cutting-edge web technologies, high-fidelity spatial design, and an uncompromising love for Japanese animation and manga culture.
+                    </p>
+
+                    <div class="about-features">
+                        <div class="about-feat-item">
+                            <div class="feat-icon">⚡</div>
+                            <div class="feat-text">
+                                <h5>Zero Lag Performance</h5>
+                                <p>Hardware accelerated particle animations and smooth 60 FPS CSS rendering.</p>
+                            </div>
+                        </div>
+                        <div class="about-feat-item">
+                            <div class="feat-icon">🌸</div>
+                            <div class="feat-text">
+                                <h5>Interactive Sakura Atmosphere</h5>
+                                <p>Dynamic particle engine with natural wind oscillation and mouse reaction.</p>
+                            </div>
+                        </div>
+                        <div class="about-feat-item">
+                            <div class="feat-icon">🎵</div>
+                            <div class="feat-text">
+                                <h5>Cyberpunk Audio Synthesizer</h5>
+                                <p>Web Audio API procedural soundscape and tactical interface sound effects.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Newsletter Card -->
+                <div class="newsletter-box">
+                    <div class="section-badge">
+                        <span class="kanji">通信</span> DISPATCH HUB
+                    </div>
+                    <h3 class="section-title" style="text-align: left; font-size: 1.8rem; margin-bottom: 10px;">JOIN THE SQUAD</h3>
+                    <p style="color: #cbd5e1; font-size: 0.95rem;">
+                        Receive exclusive weekly broadcast notifications, early manga previews, and curated community highlights directly in your inbox.
+                    </p>
+
+                    <form class="newsletter-form" id="newsletter-form">
+                        <input type="email" placeholder="Enter your email..." required aria-label="Email Address" />
+                        <button type="submit" class="btn btn-primary">JOIN NOW</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 9. CONTACT SECTION -->
+    <section class="contact-section" id="contact">
+        <div class="container">
+            <div class="contact-card">
+                <div class="section-header" style="margin-bottom: 20px;">
+                    <div class="section-badge">
+                        <span class="kanji">連絡先</span> GET IN TOUCH
+                    </div>
+                    <h2 class="section-title">TRANSMIT A <span class="highlight">MESSAGE</span></h2>
+                    <p class="section-subtitle">Have a feature request, licensing inquiry, or feedback for the AnimeVerse dev crew?</p>
+                </div>
+
+                <form class="contact-form" id="contact-form">
+                    <div class="form-group">
+                        <label for="contact-name">Pilot Name / Handle</label>
+                        <input type="text" id="contact-name" placeholder="e.g. Satoru Gojo" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="contact-email">Comm Frequency (Email)</label>
+                        <input type="email" id="contact-email" placeholder="pilot@animeverse.cyber" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="contact-msg">Transmission Content</label>
+                        <textarea id="contact-msg" rows="4" placeholder="Type your transmission here..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">
+                        <span>TRANSMIT MESSAGE</span>
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="22" y1="2" x2="11" y2="13"/>
+                            <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+                        </svg>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- 10. FUTURISTIC CYBER FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand-col">
+                    <a href="#hero" class="brand-logo" aria-label="AnimeVerse Home">
+                        <div class="brand-badge">ア</div>
+                        <span class="brand-text">Anime<span>Verse</span></span>
+                        <span class="brand-dot"></span>
+                    </a>
+                    <p>
+                        A premium front-end web portal celebrating the visual majesty, narrative depth, and passionate culture of Japanese animation and manga.
+                    </p>
+                    <div class="social-row">
+                        <a href="#hero" class="social-btn" aria-label="Twitter / X">𝕏</a>
+                        <a href="#hero" class="social-btn" aria-label="Discord">👾</a>
+                        <a href="#hero" class="social-btn" aria-label="GitHub">🐙</a>
+                        <a href="#hero" class="social-btn" aria-label="YouTube">▶</a>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="footer-title">Navigation</h4>
+                    <ul class="footer-links">
+                        <li><a href="#hero">Home</a></li>
+                        <li><a href="#anime">Popular Anime</a></li>
+                        <li><a href="#manga">Manga Archive</a></li>
+                        <li><a href="#characters">Character Vault</a></li>
+                        <li><a href="#schedule">Airing Schedule</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="footer-title">Community</h4>
+                    <ul class="footer-links">
+                        <li><a href="#about">About AnimeVerse</a></li>
+                        <li><a href="#contact">Contact Squad</a></li>
+                        <li><a href="#anime">Featured Studios</a></li>
+                        <li><a href="#manga">Top Authors</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="footer-title">Terminal Info</h4>
+                    <p style="font-size: 0.85rem; color: #94a3b8; line-height: 1.6; margin-bottom: 12px;">
+                        SYSTEM STATUS: <span style="color: var(--neon-green); font-weight: 700;">ONLINE (100%)</span><br>
+                        FRAMEWORK: HTML5 • CSS3 • ES6<br>
+                        CLIENT ENGINE: Chromium / WebKit
+                    </p>
+                    <span style="font-size: 0.75rem; color: #64748b;">Designed for Web Design Championship 2026.</span>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div>
+                    &copy; 2026 AnimeVerse. Crafted with passion, sakura petals, and cyber energy.
+                </div>
+                <div>
+                    <span class="highlight-kanji">「夢を追う勇気を持て」</span> Keep chasing your dreams.
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Floating Button -->
+    <button class="back-to-top" id="back-to-top-btn" title="Back to Top" aria-label="Back to Top">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M18 15l-6-6-6 6"/>
+        </svg>
+    </button>
+
+    <!-- 11. ANIME DETAILS MODAL -->
+    <div class="modal-backdrop" id="anime-modal" onclick="if(event.target === this) window.animeApp.closeAnimeModal()">
+        <div class="modal-container" id="modal-dynamic-content">
+            <!-- Populated dynamically via app.js -->
+        </div>
+    </div>
+
+    <!-- 12. QUICK SEARCH MODAL (Ctrl+K) -->
+    <div class="modal-backdrop" id="quick-search-modal" onclick="if(event.target === this) window.animeApp.closeSearchModal()">
+        <div class="search-modal-container">
+            <div class="search-modal-input-wrap">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="var(--neon-cyan)" stroke-width="2">
+                    <circle cx="11" cy="11" r="8"/>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                </svg>
+                <input type="text" id="quick-search-input" placeholder="Type anime name, Japanese title, or genre..." oninput="window.animeApp.handleQuickSearch(this.value)" />
+                <span class="search-shortcut-tag">ESC to close</span>
+            </div>
+            <div class="quick-search-results" id="quick-search-results">
+                <!-- Search results will appear here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- 13. TOAST CONTAINER -->
+    <div id="toast-container"></div>
+
+    <!-- Scripts -->
+    <script src="js/anime-data.js"></script>
+    <script src="js/sakura.js"></script>
+    <script src="js/tilt.js"></script>
+    <script src="js/audio.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
