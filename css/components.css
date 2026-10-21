@@ -2217,3 +2217,89 @@
         grid-template-columns: 1fr;
     }
 }
+
+
+@media (max-width: 480px) {
+    :root {
+        --navbar-height: 70px;
+    }
+
+    .container {
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+
+    .nav-container {
+        gap: 10px;
+    }
+
+    .brand-text {
+        font-size: 1.05rem;
+    }
+
+    .nav-actions {
+        gap: 6px;
+    }
+
+    .nav-actions .icon-btn {
+        width: 34px;
+        height: 34px;
+    }
+
+    .hero-title {
+        font-size: clamp(2rem, 10.5vw, 3rem);
+        overflow-wrap: anywhere;
+    }
+
+    .hero-tag {
+        max-width: 100%;
+        font-size: 0.68rem;
+        letter-spacing: 1px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .hero-buttons {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .hero-buttons .btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .hero-stats {
+        gap: 18px;
+    }
+
+    .hero-stat-item {
+        min-width: 84px;
+    }
+
+    .filter-bar-wrapper,
+    .search-sort-group {
+        width: 100%;
+    }
+
+    .search-sort-group {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .search-input-wrap,
+    .sort-select-wrap,
+    .sort-select-wrap select {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .section-title {
+        overflow-wrap: anywhere;
+    }
+
+    .contact-card,
+    .newsletter-box,
+    .about-card {
+        padding: 22px 16px;
+    }
+}
