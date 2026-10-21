@@ -2469,3 +2469,40 @@
         transform: none !important;
     }
 }
+
+
+/* Mobile watchlist layout: keep action buttons inside each saved item. */
+@media (max-width: 600px) {
+    .watchlist-item {
+        flex-wrap: wrap;
+        gap: 12px;
+        min-width: 0;
+    }
+
+    .watchlist-poster {
+        flex: 0 0 60px;
+    }
+
+    .watchlist-details {
+        flex: 1 1 calc(100% - 84px);
+        min-width: 0;
+        overflow-wrap: anywhere;
+    }
+
+    .watchlist-actions {
+        display: flex;
+        flex: 1 1 100%;
+        width: 100%;
+        min-width: 0;
+        gap: 8px;
+    }
+
+    .watchlist-actions .btn {
+        flex: 1 1 0;
+        width: 0;
+        min-width: 0;
+        padding-left: 8px;
+        padding-right: 8px;
+        white-space: nowrap;
+    }
+}
