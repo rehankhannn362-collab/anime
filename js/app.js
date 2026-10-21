@@ -71,9 +71,9 @@ class AnimeVerseApp {
         }
     }
 
-    // Recover character portraits through AniList first, then Jikan as a fallback.
+    // Recover character portraits using multiple catalogue sources; if one image URL fails, try the next.
     async recoverCharacterImage(img, characterName) {
-        if (!img || img.dataset.characterRecovery === 'done' || img.dataset.characterRecovery === 'failed' || img.dataset.characterRecovery === 'trying') return;
+        if (!img || img.dataset.characterRecovery === 'done' || img.dataset.characterRecovery === 'trying') return;
         img.dataset.characterRecovery = 'trying';
         const hideUnavailable = () => {
             img.dataset.characterRecovery = 'failed';
@@ -81,38 +81,57 @@ class AnimeVerseApp {
             const wrap = img.closest('.char-art-col, .char-thumb-btn, .cast-card');
             if (wrap) wrap.classList.add('image-unavailable');
         };
+        const candidates = [];
         try {
-            let imageUrl = '';
-            try {
-                const query = 'query ($search: String) { Character(search: $search) { image { large medium } } }';
-                const response = await fetch('https://graphql.anilist.co', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-                    body: JSON.stringify({ query, variables: { search: characterName } })
-                });
-                if (response.ok) {
-                    const payload = await response.json();
-                    const image = payload && payload.data && payload.data.Character && payload.data.Character.image;
-                    imageUrl = image && (image.large || image.medium) || '';
-                }
-            } catch (error) { /* Try the secondary catalogue below. */ }
-            if (!imageUrl) {
-                const response = await fetch('https://api.jikan.moe/v4/characters?q=' + encodeURIComponent(characterName) + '&limit=5');
-                if (!response.ok) throw new Error('Character image lookup unavailable');
+            const query = 'query ($search: String) { Character(search: $search) { name { full } image { large medium } } }';
+            const response = await fetch('https://graphql.anilist.co', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                body: JSON.stringify({ query, variables: { search: characterName } })
+            });
+            if (response.ok) {
+                const payload = await response.json();
+                const result = payload && payload.data && payload.data.Character;
+                const imageUrl = result && result.image && (result.image.large || result.image.medium);
+                if (imageUrl) candidates.push(imageUrl);
+            }
+        } catch (error) { /* Continue to the second catalogue. */ }
+
+        try {
+            const queryName = characterName === 'Satoru Gojo' ? 'Gojo Satoru' :
+                characterName === 'Tanjiro Kamado' ? 'Kamado Tanjiro' : characterName;
+            const response = await fetch('https://api.jikan.moe/v4/characters?q=' + encodeURIComponent(queryName) + '&limit=10');
+            if (response.ok) {
                 const payload = await response.json();
                 const entries = payload && payload.data || [];
                 const normalized = characterName.toLowerCase().replace(/[^a-z0-9]/g, '');
-                const match = entries.find(item => (item.name || '').toLowerCase().replace(/[^a-z0-9]/g, '') === normalized) || entries[0];
-                imageUrl = match && match.images && match.images.webp && match.images.webp.image_url
-                    || match && match.images && match.images.jpg && match.images.jpg.image_url || '';
+                const match = entries.find(item => {
+                    const name = (item.name || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+                    const alt = (item.name_kanji || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+                    return name === normalized || name.includes(normalized) || normalized.includes(name) || alt === normalized;
+                }) || entries[0];
+                const imageUrl = match && match.images && match.images.webp && match.images.webp.image_url ||
+                    match && match.images && match.images.jpg && match.images.jpg.image_url;
+                if (imageUrl && !candidates.includes(imageUrl)) candidates.push(imageUrl);
             }
-            if (!imageUrl) throw new Error('No character portrait found');
-            img.onerror = hideUnavailable;
-            img.onload = () => { img.dataset.characterRecovery = 'done'; };
-            img.src = imageUrl;
-        } catch (error) {
+        } catch (error) { /* Keep any AniList candidate already found. */ }
+
+        if (!candidates.length) {
             hideUnavailable();
+            return;
         }
+        let candidateIndex = 0;
+        img.onload = () => { img.dataset.characterRecovery = 'done'; };
+        img.onerror = () => {
+            candidateIndex += 1;
+            if (candidateIndex < candidates.length) {
+                img.src = candidates[candidateIndex];
+            } else {
+                hideUnavailable();
+            }
+        };
+        img.hidden = false;
+        img.src = candidates[candidateIndex];
     }
 
     // --- ANIME CARDS RENDERING ---
