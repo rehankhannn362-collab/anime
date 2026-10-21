@@ -373,3 +373,38 @@ body::after {
 .toast-icon {
     font-size: 1.3rem;
 }
+
+
+/* Product polish: keyboard access and reduced-motion support */
+:focus-visible {
+    outline: 3px solid var(--neon-cyan);
+    outline-offset: 4px;
+}
+
+::selection {
+    background: rgba(255, 42, 133, 0.35);
+    color: #ffffff;
+}
+
+.rights-note {
+    max-width: 980px;
+    margin: 28px auto 18px;
+    padding: 14px 18px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-md);
+    color: #94a3b8;
+    font-size: 0.78rem;
+    line-height: 1.7;
+    text-align: center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
