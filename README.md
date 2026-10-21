@@ -1,6 +1,6 @@
-# 🌸 AnimeVerse — Premium Anime & Manga Cyber Hub
+# 🌸 AnimeVerse — Anime & Manga Discovery Template
 
-Welcome to **AnimeVerse**, a visually stunning, competition-grade anime and manga web platform designed with futuristic Japanese cyberpunk aesthetics, glassmorphism UI, a real-time Sakura petal physics particle engine, 3D interactive card tilt effects, dynamic anime details modal with trailer simulation, character vault, and Web Audio API ambient synthesis.
+**AnimeVerse** is a front-end anime and manga discovery concept with a futuristic cyberpunk visual style, glassmorphism UI, animated sakura petals, interactive cards, a watchlist, character spotlights, and optional Web Audio ambience. It is a static demo, not a streaming service; it has no backend, account system, real newsletter subscription, or message delivery configured.
 
 ---
 
@@ -83,3 +83,12 @@ animeverse/
     ├── audio.js            # Web Audio API synthesizer for ambient synth & SFX
     └── app.js              # Application logic, filters, search, modals, watchlist
 ```
+
+
+## ⚠️ Before commercial use
+
+This repository currently references third-party anime and character names, artwork hosted by external sites, and YouTube trailers. These assets and franchises are not owned by the template author. **Do not redistribute or sell the project with third-party artwork or branding unless you have the necessary rights.** Replace linked artwork with original or properly licensed assets, review all names and copy, and provide your own licensing terms before selling a customized version. The newsletter and contact forms are demo interactions only and do not send or store submissions.
+
+## Accessibility and motion
+
+The template includes visible keyboard focus styles and a reduced-motion preference override. Animations and external images/fonts may render differently depending on the user's browser, device, and network.
