@@ -565,8 +565,9 @@ class AnimeVerseApp {
         const navMenu = document.getElementById('nav-links-menu');
         if (mobileToggle && navMenu) {
             mobileToggle.addEventListener('click', () => {
-                navMenu.classList.toggle('open');
-                mobileToggle.classList.toggle('open');
+                const isOpen = navMenu.classList.toggle('open');
+                mobileToggle.classList.toggle('open', isOpen);
+                mobileToggle.setAttribute('aria-expanded', String(isOpen));
             });
 
             // Close on link click
@@ -574,6 +575,7 @@ class AnimeVerseApp {
                 link.addEventListener('click', () => {
                     navMenu.classList.remove('open');
                     mobileToggle.classList.remove('open');
+                    mobileToggle.setAttribute('aria-expanded', 'false');
                 });
             });
         }
