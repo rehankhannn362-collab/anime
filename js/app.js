@@ -596,8 +596,7 @@ class AnimeVerseApp {
             newsletterForm.addEventListener('submit', (e) => {
                 e.preventDefault();
                 const email = newsletterForm.querySelector('input[type="email"]').value;
-                this.showToast(`Subscribed ${email} to AnimeVerse Cyber Chronicles! 🚀`, 'success');
-                newsletterForm.reset();
+                this.showToast('Demo only: connect a newsletter service before collecting subscriptions.', 'info');
             });
         }
 
@@ -606,8 +605,7 @@ class AnimeVerseApp {
         if (contactForm) {
             contactForm.addEventListener('submit', (e) => {
                 e.preventDefault();
-                this.showToast('Arigatou! Message received. Our squad will reply soon.', 'success');
-                contactForm.reset();
+                this.showToast('Demo only: connect a form service before sending messages.', 'info');
             });
         }
     }
