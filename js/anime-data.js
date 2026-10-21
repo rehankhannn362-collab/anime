@@ -66,7 +66,7 @@ const ANIME_DATA = [
             music: 96
         },
         characters: [
-            { name: "Satoru Gojo", role: "Special Grade Sorcerer", voice: "Yuichi Nakamura", avatar: "https://cdn.myanimelist.net/images/characters/14/428317.jpg" },
+            { name: "Satoru Gojo", role: "Special Grade Sorcerer", voice: "Yuichi Nakamura", avatar: "./gojo.jpeg" },
             { name: "Yuji Itadori", role: "Sukuna Vessel", voice: "Junya Enoki", avatar: "https://cdn.myanimelist.net/images/characters/16/424151.jpg" },
             { name: "Megumi Fushiguro", role: "Shadow Puppeteer", voice: "Yuma Uchida", avatar: "https://cdn.myanimelist.net/images/characters/15/424155.jpg" }
         ]
@@ -99,7 +99,7 @@ const ANIME_DATA = [
             music: 98
         },
         characters: [
-            { name: "Tanjiro Kamado", role: "Sun Breathing Slayer", voice: "Natsuki Hanae", avatar: "https://cdn.myanimelist.net/images/characters/7/386007.jpg" },
+            { name: "Tanjiro Kamado", role: "Sun Breathing Slayer", voice: "Natsuki Hanae", avatar: "./images.jpg" },
             { name: "Nezuko Kamado", role: "Demon Maiden", voice: "Akari Kito", avatar: "https://cdn.myanimelist.net/images/characters/12/386060.jpg" },
             { name: "Zenitsu Agatsuma", role: "Thunder Slayer", voice: "Hiro Shimono", avatar: "https://cdn.myanimelist.net/images/characters/15/386062.jpg" }
         ]
@@ -364,7 +364,7 @@ const CHARACTER_VAULT = [
         anime: "Jujutsu Kaisen",
         title: "The Honored One",
         quote: "“Throughout Heaven and Earth, I alone am the honored one.”",
-        image: "https://cdn.myanimelist.net/images/characters/14/428317.jpg",
+        image: "./gojo.jpeg",
         glowColor: "#00f0ff",
         stats: {
             power: 100,
@@ -436,7 +436,7 @@ const CHARACTER_VAULT = [
         anime: "Demon Slayer",
         title: "Sun Breathing Successor",
         quote: "“No matter how many people you may lose, you have no choice but to go on living.”",
-        image: "https://cdn.myanimelist.net/images/characters/7/386007.jpg",
+        image: "./images.jpg",
         glowColor: "#ff2a85",
         stats: {
             power: 78,
