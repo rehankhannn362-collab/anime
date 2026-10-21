@@ -439,13 +439,13 @@ const CHARACTER_VAULT = [
         image: "https://cdn.myanimelist.net/images/characters/7/386007.jpg",
         glowColor: "#ff2a85",
         stats: {
-            power: 94,
-            speed: 95,
-            intelligence: 92,
-            technique: 98,
-            aura: 96
+            power: 78,
+            speed: 84,
+            intelligence: 86,
+            technique: 91,
+            aura: 82
         },
-        abilities: ["Hinokami Kagura (Sun Breathing)", "Transparent World Vision", "Demon Slayer Mark", "Selfless State"]
+        abilities: ["Sun Breathing (Hinokami Kagura)", "Demon Slayer Mark", "Transparent World", "Selfless State"]
     },
     {
         id: "zoro",
