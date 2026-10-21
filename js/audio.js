@@ -1,196 +1,167 @@
 /**
- * AnimeVerse Audio Synthesizer Engine
- * Web Audio API procedural sound system for futuristic cyberpunk UI effects and ambient synth pads.
+ * AnimeVerse Audio Engine
+ * Gentle evolving ambient music and quiet UI sounds, enabled only by user choice.
  */
-
 class AnimeAudioEngine {
     constructor() {
         this.ctx = null;
         this.isMuted = true;
         this.isAmbientPlaying = false;
         this.ambientGain = null;
-        this.oscillators = [];
+        this.ambientVoices = [];
+        this.chordTimer = null;
+        this.chordIndex = 0;
+        this.masterGain = null;
     }
 
     initContext() {
         if (!this.ctx) {
             const AudioContext = window.AudioContext || window.webkitAudioContext;
+            if (!AudioContext) return false;
             this.ctx = new AudioContext();
+            this.masterGain = this.ctx.createGain();
+            this.masterGain.gain.value = 0.55;
+            this.masterGain.connect(this.ctx.destination);
         }
-        if (this.ctx.state === 'suspended') {
-            this.ctx.resume();
-        }
+        if (this.ctx.state === 'suspended') this.ctx.resume();
+        return true;
     }
 
-    playHoverSound() {
-        if (this.isMuted) return;
+    playTone(frequency, duration = 0.16, volume = 0.012, type = 'sine') {
+        if (this.isMuted || !this.initContext()) return;
         try {
-            this.initContext();
             const now = this.ctx.currentTime;
             const osc = this.ctx.createOscillator();
             const gain = this.ctx.createGain();
-
-            osc.type = 'sine';
-            osc.frequency.setValueAtTime(587.33, now); // D5
-            osc.frequency.exponentialRampToValueAtTime(880, now + 0.08); // A5
-
-            gain.gain.setValueAtTime(0.04, now);
-            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
-
-            osc.connect(gain);
-            gain.connect(this.ctx.destination);
-
+            const filter = this.ctx.createBiquadFilter();
+            osc.type = type;
+            osc.frequency.setValueAtTime(frequency, now);
+            filter.type = 'lowpass';
+            filter.frequency.value = 1300;
+            gain.gain.setValueAtTime(0.0001, now);
+            gain.gain.exponentialRampToValueAtTime(volume, now + 0.025);
+            gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+            osc.connect(filter);
+            filter.connect(gain);
+            gain.connect(this.masterGain);
             osc.start(now);
-            osc.stop(now + 0.08);
-        } catch (e) {
-            console.warn('Audio play error:', e);
+            osc.stop(now + duration + 0.04);
+        } catch (error) {
+            console.warn('Audio effect unavailable:', error);
         }
     }
 
+    playHoverSound() { this.playTone(659.25, 0.065, 0.0035, 'sine'); }
     playClickSound() {
         if (this.isMuted) return;
-        try {
-            this.initContext();
-            const now = this.ctx.currentTime;
-            const osc = this.ctx.createOscillator();
-            const gain = this.ctx.createGain();
-
-            osc.type = 'triangle';
-            osc.frequency.setValueAtTime(440, now); // A4
-            osc.frequency.exponentialRampToValueAtTime(1174.66, now + 0.12); // D6
-
-            gain.gain.setValueAtTime(0.08, now);
-            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.12);
-
-            osc.connect(gain);
-            gain.connect(this.ctx.destination);
-
-            osc.start(now);
-            osc.stop(now + 0.12);
-        } catch (e) {
-            console.warn('Audio play error:', e);
-        }
+        this.playTone(523.25, 0.12, 0.007, 'sine');
+        setTimeout(() => this.playTone(783.99, 0.14, 0.004, 'sine'), 55);
     }
-
     playModalOpenSound() {
         if (this.isMuted) return;
-        try {
-            this.initContext();
-            const now = this.ctx.currentTime;
-            const notes = [440, 554.37, 659.25, 880]; // A Major 7 chord
-
-            notes.forEach((freq, idx) => {
-                const osc = this.ctx.createOscillator();
-                const gain = this.ctx.createGain();
-
-                osc.type = 'sine';
-                osc.frequency.setValueAtTime(freq, now + idx * 0.04);
-
-                gain.gain.setValueAtTime(0.05, now + idx * 0.04);
-                gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.04 + 0.35);
-
-                osc.connect(gain);
-                gain.connect(this.ctx.destination);
-
-                osc.start(now + idx * 0.04);
-                osc.stop(now + idx * 0.04 + 0.35);
-            });
-        } catch (e) {
-            console.warn('Audio play error:', e);
-        }
+        [523.25, 659.25, 783.99].forEach((note, index) => {
+            setTimeout(() => this.playTone(note, 0.38, 0.005, 'sine'), index * 65);
+        });
     }
 
     toggleAmbient() {
-        this.initContext();
+        if (!this.initContext()) return false;
         this.isMuted = !this.isMuted;
-
         if (!this.isMuted) {
             this.startAmbientSynth();
             this.playModalOpenSound();
         } else {
             this.stopAmbientSynth();
         }
-
         return !this.isMuted;
     }
 
     startAmbientSynth() {
-        if (this.isAmbientPlaying) return;
-        try {
-            this.isAmbientPlaying = true;
-            const now = this.ctx.currentTime;
+        if (this.isAmbientPlaying || !this.ctx) return;
+        this.isAmbientPlaying = true;
+        this.chordIndex = 0;
+        const now = this.ctx.currentTime;
+        this.ambientGain = this.ctx.createGain();
+        this.ambientGain.gain.setValueAtTime(0.0001, now);
+        this.ambientGain.gain.exponentialRampToValueAtTime(0.018, now + 4.5);
+        this.ambientGain.connect(this.masterGain);
 
-            this.ambientGain = this.ctx.createGain();
-            this.ambientGain.gain.setValueAtTime(0.001, now);
-            this.ambientGain.gain.exponentialRampToValueAtTime(0.04, now + 2.0); // gentle fade in
-            this.ambientGain.connect(this.ctx.destination);
+        // Soft sine/triangle tones with gentle low-pass filtering replace the old harsh sawtooth wall.
+        const voices = [
+            { freq: 110, type: 'sine', volume: 0.30, detune: -2 },
+            { freq: 220, type: 'sine', volume: 0.18, detune: 2 },
+            { freq: 261.63, type: 'triangle', volume: 0.06, detune: 0 },
+            { freq: 329.63, type: 'sine', volume: 0.08, detune: 3 }
+        ];
+        this.ambientVoices = voices.map((voice, index) => {
+            const osc = this.ctx.createOscillator();
+            const gain = this.ctx.createGain();
+            const filter = this.ctx.createBiquadFilter();
+            osc.type = voice.type;
+            osc.frequency.setValueAtTime(voice.freq, now);
+            osc.detune.value = voice.detune;
+            filter.type = 'lowpass';
+            filter.frequency.value = index === 0 ? 260 : 620;
+            filter.Q.value = 0.25;
+            gain.gain.value = voice.volume;
+            osc.connect(filter);
+            filter.connect(gain);
+            gain.connect(this.ambientGain);
+            osc.start(now);
+            return { osc, base: voice.freq };
+        });
 
-            // Ambient ethereal chords (Cyberpunk anime vibe)
-            const freqs = [110, 220, 277.18, 329.63, 440, 554.37]; // A major 9
-            this.oscillators = [];
-
-            freqs.forEach(f => {
-                const osc = this.ctx.createOscillator();
-                const filter = this.ctx.createBiquadFilter();
-
-                osc.type = 'sawtooth';
-                osc.frequency.value = f;
-
-                filter.type = 'lowpass';
-                filter.frequency.value = 450;
-                filter.Q.value = 4;
-
-                // Subtle LFO modulation for breathing anime atmosphere
-                const lfo = this.ctx.createOscillator();
-                const lfoGain = this.ctx.createGain();
-                lfo.frequency.value = 0.2 + Math.random() * 0.2;
-                lfoGain.gain.value = 150;
-                lfo.connect(filter.frequency);
-                lfo.start();
-
-                osc.connect(filter);
-                filter.connect(this.ambientGain);
-
-                osc.start();
-                this.oscillators.push(osc, lfo);
+        // A slow chord progression gives the ambience movement without a repetitive, piercing note.
+        const progression = [
+            [110, 220, 261.63, 329.63],
+            [98, 196, 246.94, 293.66],
+            [130.81, 261.63, 329.63, 392],
+            [87.31, 174.61, 220, 261.63],
+            [110, 220, 277.18, 329.63]
+        ];
+        const evolve = () => {
+            if (!this.isAmbientPlaying || !this.ctx) return;
+            this.chordIndex = (this.chordIndex + 1) % progression.length;
+            const time = this.ctx.currentTime;
+            progression[this.chordIndex].forEach((note, index) => {
+                const voice = this.ambientVoices[index];
+                if (!voice) return;
+                voice.osc.frequency.cancelScheduledValues(time);
+                voice.osc.frequency.setTargetAtTime(note, time, 3.2);
             });
-        } catch (e) {
-            console.warn('Ambient synth error:', e);
-        }
+            this.ambientGain.gain.cancelScheduledValues(time);
+            this.ambientGain.gain.setTargetAtTime(0.015 + (this.chordIndex % 2) * 0.002, time, 3.5);
+        };
+        this.chordTimer = setInterval(evolve, 9500);
     }
 
     stopAmbientSynth() {
-        if (!this.isAmbientPlaying || !this.ambientGain) return;
-        try {
-            const now = this.ctx.currentTime;
-            this.ambientGain.gain.setValueAtTime(this.ambientGain.gain.value, now);
-            this.ambientGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.8);
-
-            setTimeout(() => {
-                this.oscillators.forEach(osc => {
-                    try { osc.stop(); } catch(e) {}
-                });
-                this.oscillators = [];
-                this.isAmbientPlaying = false;
-            }, 850);
-        } catch (e) {
-            console.warn('Stop synth error:', e);
-        }
+        if (!this.isAmbientPlaying || !this.ambientGain || !this.ctx) return;
+        const now = this.ctx.currentTime;
+        this.ambientGain.gain.cancelScheduledValues(now);
+        this.ambientGain.gain.setTargetAtTime(0.0001, now, 0.2);
+        if (this.chordTimer) clearInterval(this.chordTimer);
+        this.chordTimer = null;
+        const voices = this.ambientVoices;
+        this.isAmbientPlaying = false;
+        setTimeout(() => {
+            voices.forEach(voice => {
+                try { voice.osc.stop(); } catch (error) {}
+            });
+            this.ambientVoices = [];
+        }, 1100);
     }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
     window.audioEngine = new AnimeAudioEngine();
-
-    // Auto-bind sound effects to interactive elements
-    document.addEventListener('mouseover', (e) => {
-        if (e.target.closest('button, .nav-link, .tilt-card, .tab-btn, .char-thumb, .manga-item')) {
+    document.addEventListener('mouseover', (event) => {
+        if (event.target.closest('button, .nav-link, .tilt-card, .tab-btn, .char-thumb, .manga-item')) {
             window.audioEngine.playHoverSound();
         }
     });
-
-    document.addEventListener('click', (e) => {
-        if (e.target.closest('button, .nav-link, .tab-btn, .char-thumb, .filter-chip')) {
+    document.addEventListener('click', (event) => {
+        if (event.target.closest('button, .nav-link, .tab-btn, .char-thumb, .filter-chip')) {
             window.audioEngine.playClickSound();
         }
     });
