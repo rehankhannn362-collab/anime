@@ -1655,6 +1655,66 @@
     height: 100%;
 }
 
+/* Clickable YouTube preview: remains useful when iframe embeds are blocked. */
+.trailer-thumbnail-link {
+    display: block;
+    color: #fff;
+    text-decoration: none;
+    cursor: pointer;
+}
+.trailer-thumbnail-link img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.35s ease, filter 0.35s ease;
+}
+.trailer-thumbnail-link:hover img,
+.trailer-thumbnail-link:focus-visible img {
+    transform: scale(1.035);
+    filter: brightness(0.72);
+}
+.trailer-play-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: grid;
+    place-items: center;
+    width: 68px;
+    height: 48px;
+    border-radius: 14px;
+    background: rgba(255, 42, 133, 0.94);
+    box-shadow: 0 0 28px rgba(255, 42, 133, 0.35);
+    font-size: 1.45rem;
+    padding-left: 4px;
+    pointer-events: none;
+}
+.trailer-watch-label {
+    position: absolute;
+    left: 12px;
+    bottom: 12px;
+    padding: 8px 11px;
+    border-radius: 7px;
+    background: rgba(5, 7, 18, 0.82);
+    color: #fff;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    pointer-events: none;
+}
+.trailer-help-text {
+    color: #94a3b8;
+    font-size: 0.78rem;
+    line-height: 1.5;
+    margin: 9px 0 6px;
+}
+.trailer-thumbnail-link:focus-visible {
+    outline: 2px solid var(--neon-cyan);
+    outline-offset: 4px;
+}
+
 .modal-cast-row {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
