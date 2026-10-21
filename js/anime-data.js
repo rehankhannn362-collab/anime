@@ -376,6 +376,24 @@ const CHARACTER_VAULT = [
         abilities: ["Limitless Cursed Technique", "Six Eyes", "Domain Expansion: Infinite Void", "Hollow Purple: 200%"]
     },
     {
+        id: "naruto",
+        name: "Naruto Uzumaki",
+        japaneseName: "うずまき ナルト",
+        anime: "Naruto Shippuden",
+        title: "The Seventh Hokage",
+        quote: "“I'm not gonna run away, I never go back on my word! That's my nindō: my ninja way!”",
+        image: "https://cdn.myanimelist.net/images/characters/2/284121.jpg",
+        glowColor: "#ff8c2a",
+        stats: {
+            power: 99,
+            speed: 97,
+            intelligence: 91,
+            technique: 98,
+            aura: 100
+        },
+        abilities: ["Six Paths Sage Mode", "Kurama Chakra Mode", "Rasenshuriken", "Tailed Beast Rasenshuriken"]
+    },
+    {
         id: "luffy",
         name: "Monkey D. Luffy",
         japaneseName: "モンキー・D・ルフィ",
