@@ -20,7 +20,7 @@ class AnimeAudioEngine {
             if (!AudioContext) return false;
             this.ctx = new AudioContext();
             this.masterGain = this.ctx.createGain();
-            this.masterGain.gain.value = 0.9;
+            this.masterGain.gain.value = 1.0;
             this.masterGain.connect(this.ctx.destination);
         }
         if (this.ctx.state === 'suspended') this.ctx.resume();
@@ -46,10 +46,10 @@ class AnimeAudioEngine {
         filter.Q.value = 0.35;
 
         toneGain.gain.setValueAtTime(0.0001, start);
-        toneGain.gain.linearRampToValueAtTime(0.032, start + 0.12);
+        toneGain.gain.linearRampToValueAtTime(0.14, start + 0.12);
         toneGain.gain.exponentialRampToValueAtTime(0.0001, start + 2.9);
         overtoneGain.gain.setValueAtTime(0.0001, start);
-        overtoneGain.gain.linearRampToValueAtTime(0.0035, start + 0.12);
+        overtoneGain.gain.linearRampToValueAtTime(0.018, start + 0.12);
         overtoneGain.gain.exponentialRampToValueAtTime(0.0001, start + 1.4);
 
         osc.connect(filter);
