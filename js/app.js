@@ -9,6 +9,7 @@ class AnimeVerseApp {
         this.searchQuery = '';
         this.sortBy = 'rating';
         this.activeCharacterId = 'gojo';
+        this.coverLookupCache = new Map();
         this.watchlist = JSON.parse(localStorage.getItem('animeverse_watchlist') || '[]');
         
         this.init();
@@ -22,6 +23,52 @@ class AnimeVerseApp {
         this.bindEvents();
         this.initScrollEffects();
         this.updateWatchlistCount();
+    }
+
+    // Recover remote covers when MyAnimeList blocks hotlinking or an image URL expires.
+    // A title search against AniList supplies a real cover without needing a backend.
+    async recoverCover(img, title, mediaType, fallbackUrl = '') {
+        if (!img || img.dataset.recovering === 'done' || img.dataset.recovering === 'failed') return;
+        if (img.dataset.triedAniList === 'yes') {
+            img.dataset.recovering = 'failed';
+            img.hidden = true;
+            if (img.parentElement) img.parentElement.classList.add('image-unavailable');
+            return;
+        }
+
+        if (fallbackUrl && !img.dataset.triedBanner) {
+            img.dataset.triedBanner = 'yes';
+            img.src = fallbackUrl;
+            return;
+        }
+
+        img.dataset.recovering = 'trying';
+        try {
+            const key = mediaType + ':' + title.toLowerCase();
+            let coverUrl = this.coverLookupCache.get(key);
+            if (!coverUrl) {
+                const query = 'query ($search: String, $type: MediaType) { Media(search: $search, type: $type) { coverImage { extraLarge large } bannerImage } }';
+                const response = await fetch('https://graphql.anilist.co', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                    body: JSON.stringify({ query, variables: { search: title, type: mediaType } })
+                });
+                if (!response.ok) throw new Error('Cover lookup unavailable');
+                const payload = await response.json();
+                const media = payload && payload.data && payload.data.Media;
+                coverUrl = media && media.coverImage && (media.coverImage.extraLarge || media.coverImage.large);
+                if (!coverUrl && mediaType === 'ANIME') coverUrl = media && media.bannerImage;
+                if (!coverUrl) throw new Error('No matching artwork');
+                this.coverLookupCache.set(key, coverUrl);
+            }
+            img.dataset.triedAniList = 'yes';
+            img.src = coverUrl;
+            img.onload = () => { img.dataset.recovering = 'done'; };
+        } catch (error) {
+            img.dataset.recovering = 'failed';
+            img.hidden = true;
+            if (img.parentElement) img.parentElement.classList.add('image-unavailable');
+        }
     }
 
     // --- ANIME CARDS RENDERING ---
@@ -72,7 +119,7 @@ class AnimeVerseApp {
                 <article class="anime-card tilt-card" data-id="${anime.id}">
                     <div class="card-glare"></div>
                     <div class="card-image-wrap" data-fallback="${anime.title}">
-                        <img src="${anime.poster}" alt="${anime.title}" class="card-poster" loading="lazy" onerror="this.onerror=null;this.hidden=true;this.parentElement.classList.add('image-unavailable');" />
+                        <img src="${anime.poster}" alt="${anime.title}" class="card-poster" loading="lazy" onerror="window.animeApp.recoverCover(this, this.alt, 'ANIME', '${anime.banner || ''}')" />
                         <div class="card-overlay"></div>
                         <div class="card-top-badges">
                             <span class="score-badge">
@@ -132,7 +179,7 @@ class AnimeVerseApp {
                 <div class="manga-card tilt-card" data-id="${manga.id}">
                     <div class="card-glare"></div>
                     <div class="manga-cover-wrap" data-fallback="${manga.title}">
-                        <img src="${manga.cover}" alt="${manga.title}" class="manga-cover" loading="lazy" onerror="this.onerror=null;this.hidden=true;this.parentElement.classList.add('image-unavailable');" />
+                        <img src="${manga.cover}" alt="${manga.title}" class="manga-cover" loading="lazy" onerror="window.animeApp.recoverCover(this, this.alt, 'MANGA')" />
                         <div class="manga-spine"></div>
                         <span class="manga-tag">${manga.tag}</span>
                     </div>
@@ -325,7 +372,7 @@ class AnimeVerseApp {
             <div class="modal-body-content">
                 <div class="modal-layout-grid">
                     <div class="modal-poster-col">
-                        <img src="${anime.poster}" alt="${anime.title}" class="modal-poster-img" />
+                        <img src="${anime.poster}" alt="${anime.title}" class="modal-poster-img" loading="lazy" onerror="window.animeApp.recoverCover(this, this.alt, 'ANIME', '${anime.banner || ''}')" />
                         <div class="modal-quick-stats">
                             <div class="stat-box">
                                 <span class="label">SCORE</span>
@@ -458,7 +505,7 @@ class AnimeVerseApp {
                     <div class="watchlist-grid">
                         ${savedAnime.map(a => `
                             <div class="watchlist-item">
-                                <img src="${a.poster}" alt="${a.title}" class="watchlist-poster" />
+                                <img src="${a.poster}" alt="${a.title}" class="watchlist-poster" loading="lazy" onerror="window.animeApp.recoverCover(this, this.alt, 'ANIME', '${a.banner || ''}')" />
                                 <div class="watchlist-details">
                                     <h4>${a.title}</h4>
                                     <span>⭐ ${a.rating} • ${a.episodes}</span>
@@ -565,7 +612,7 @@ class AnimeVerseApp {
                 if (window.audioEngine) {
                     const isPlaying = window.audioEngine.toggleAmbient();
                     audioToggleBtn.classList.toggle('active', isPlaying);
-                    this.showToast(isPlaying ? 'Cyberpunk Ambient Synth & SFX ON 🎵' : 'Audio Ambience Muted', 'info');
+                    this.showToast(isPlaying ? 'Soothing ambient music on 🎵' : 'Audio Ambience Muted', 'info');
                 }
             });
         }
@@ -655,7 +702,7 @@ class AnimeVerseApp {
 
         resultsContainer.innerHTML = matches.map(a => `
             <div class="quick-result-item" onclick="window.animeApp.openAnimeModal('${a.id}'); window.animeApp.closeSearchModal();">
-                <img src="${a.poster}" alt="${a.title}" />
+                <img src="${a.poster}" alt="${a.title}" loading="lazy" onerror="window.animeApp.recoverCover(this, this.alt, 'ANIME', '${a.banner || ''}')" />
                 <div class="res-info">
                     <strong>${a.title}</strong>
                     <span>${a.japaneseTitle} • ⭐ ${a.rating}</span>
