@@ -2506,3 +2506,54 @@
         white-space: nowrap;
     }
 }
+
+
+/* Strong mobile override: use a two-column grid so action buttons cannot overflow. */
+@media (max-width: 600px) {
+    .watchlist-grid .watchlist-item {
+        display: grid !important;
+        grid-template-columns: 60px minmax(0, 1fr);
+        align-items: center;
+        gap: 12px;
+        width: 100%;
+        min-width: 0;
+        box-sizing: border-box;
+    }
+
+    .watchlist-grid .watchlist-poster {
+        grid-column: 1;
+        grid-row: 1;
+        width: 60px;
+        max-width: 100%;
+    }
+
+    .watchlist-grid .watchlist-details {
+        grid-column: 2;
+        grid-row: 1;
+        width: 100%;
+        min-width: 0;
+        overflow-wrap: anywhere;
+    }
+
+    .watchlist-grid .watchlist-actions {
+        grid-column: 1 / -1;
+        display: grid !important;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        gap: 8px;
+        width: 100%;
+        min-width: 0;
+    }
+
+    .watchlist-grid .watchlist-actions .btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100% !important;
+        min-width: 0 !important;
+        max-width: 100%;
+        box-sizing: border-box;
+        padding: 12px 4px;
+        white-space: nowrap;
+        font-size: clamp(0.72rem, 3.2vw, 0.9rem);
+    }
+}
