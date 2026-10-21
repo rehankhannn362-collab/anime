@@ -182,7 +182,7 @@ class AnimeVerseApp {
                 <article class="anime-card tilt-card" data-id="${anime.id}">
                     <div class="card-glare"></div>
                     <div class="card-image-wrap" data-fallback="${anime.title}">
-                        <img referrerpolicy="no-referrer" src="${anime.poster}" alt="${anime.title}" class="card-poster" loading="lazy" onerror="window.animeApp.recoverCover(this, this.alt, 'ANIME', '${anime.banner || ''}')" />
+                        <img src="${anime.poster}" alt="${anime.title}" class="card-poster" loading="lazy" onerror="window.animeApp.recoverCover(this, this.alt, 'ANIME', '${anime.banner || ''}')" />
                         <div class="card-overlay"></div>
                         <div class="card-top-badges">
                             <span class="score-badge">
@@ -242,7 +242,7 @@ class AnimeVerseApp {
                 <div class="manga-card tilt-card" data-id="${manga.id}">
                     <div class="card-glare"></div>
                     <div class="manga-cover-wrap" data-fallback="${manga.title}">
-                        <img referrerpolicy="no-referrer" src="${manga.cover}" alt="${manga.title}" class="manga-cover" loading="lazy" onerror="window.animeApp.recoverCover(this, this.alt, 'MANGA')" />
+                        <img src="${manga.cover}" alt="${manga.title}" class="manga-cover" loading="lazy" onerror="window.animeApp.recoverCover(this, this.alt, 'MANGA')" />
                         <div class="manga-spine"></div>
                         <span class="manga-tag">${manga.tag}</span>
                     </div>
@@ -286,7 +286,7 @@ class AnimeVerseApp {
                 const isActive = c.id === this.activeCharacterId;
                 return `
                     <button class="char-thumb-btn ${isActive ? 'active' : ''}" onclick="window.animeApp.switchCharacter('${c.id}')" title="${c.name}">
-                        <img referrerpolicy="no-referrer" src="${c.image}" alt="${c.name}" onerror="window.animeApp.recoverCharacterImage(this, this.alt)" />
+                        <img src="${c.image}" alt="${c.name}" onerror="window.animeApp.recoverCharacterImage(this, this.alt)" />
                         <span class="thumb-name">${c.name.split(' ')[0]}</span>
                     </button>
                 `;
@@ -318,7 +318,7 @@ class AnimeVerseApp {
             <div class="char-spotlight-card" style="--char-glow: ${char.glowColor}">
                 <div class="char-art-col" data-fallback="${char.name}">
                     <div class="char-art-aura" style="background: radial-gradient(circle, ${char.glowColor}44 0%, transparent 70%);"></div>
-                    <img referrerpolicy="no-referrer" src="${char.image}" alt="${char.name}" class="char-featured-img" onerror="window.animeApp.recoverCharacterImage(this, this.alt)" />
+                    <img src="${char.image}" alt="${char.name}" class="char-featured-img" onerror="window.animeApp.recoverCharacterImage(this, this.alt)" />
                     <div class="char-kanji-watermark">${char.japaneseName}</div>
                 </div>
 
@@ -435,7 +435,7 @@ class AnimeVerseApp {
             <div class="modal-body-content">
                 <div class="modal-layout-grid">
                     <div class="modal-poster-col">
-                        <img referrerpolicy="no-referrer" src="${anime.poster}" alt="${anime.title}" class="modal-poster-img" loading="lazy" onerror="window.animeApp.recoverCover(this, this.alt, 'ANIME', '${anime.banner || ''}')" />
+                        <img src="${anime.poster}" alt="${anime.title}" class="modal-poster-img" loading="lazy" onerror="window.animeApp.recoverCover(this, this.alt, 'ANIME', '${anime.banner || ''}')" />
                         <div class="modal-quick-stats">
                             <div class="stat-box">
                                 <span class="label">SCORE</span>
@@ -478,7 +478,7 @@ class AnimeVerseApp {
                         <div class="modal-section">
                             <h4 class="modal-sec-title">TRAILER PREVIEW</h4>
                             <a class="trailer-preview-frame trailer-thumbnail-link" href="https://www.youtube.com/watch?v=${anime.trailerUrl.split('/embed/')[1]?.split(/[?&]/)[0] || ''}" target="_blank" rel="noopener noreferrer" aria-label="Watch ${anime.title} trailer on YouTube">
-                                <img referrerpolicy="no-referrer" src="https://img.youtube.com/vi/${anime.trailerUrl.split('/embed/')[1]?.split(/[?&]/)[0] || ''}/hqdefault.jpg" alt="${anime.title} trailer thumbnail" loading="lazy" referrerpolicy="no-referrer" onerror="this.onerror=null; this.src='https://img.youtube.com/vi/${anime.trailerUrl.split('/embed/')[1]?.split(/[?&]/)[0] || ''}/mqdefault.jpg';" />
+                                <img src="https://img.youtube.com/vi/${anime.trailerUrl.split('/embed/')[1]?.split(/[?&]/)[0] || ''}/hqdefault.jpg" alt="${anime.title} trailer thumbnail" loading="lazy" onerror="this.onerror=null; this.src='https://img.youtube.com/vi/${anime.trailerUrl.split('/embed/')[1]?.split(/[?&]/)[0] || ''}/mqdefault.jpg';" />
                                 <span class="trailer-play-overlay" aria-hidden="true">▶</span>
                                 <span class="trailer-watch-label">WATCH TRAILER ON YOUTUBE ↗</span>
                             </a>
@@ -491,7 +491,7 @@ class AnimeVerseApp {
                             <div class="modal-cast-row">
                                 ${anime.characters ? anime.characters.map(c => `
                                     <div class="cast-card">
-                                        <img referrerpolicy="no-referrer" src="${c.avatar}" alt="${c.name}" class="cast-avatar" onerror="window.animeApp.recoverCharacterImage(this, this.alt)" />
+                                        <img src="${c.avatar}" alt="${c.name}" class="cast-avatar" onerror="window.animeApp.recoverCharacterImage(this, this.alt)" />
                                         <div class="cast-info">
                                             <span class="cast-name">${c.name}</span>
                                             <span class="cast-role">${c.role}</span>
@@ -571,7 +571,7 @@ class AnimeVerseApp {
                     <div class="watchlist-grid">
                         ${savedAnime.map(a => `
                             <div class="watchlist-item">
-                                <img referrerpolicy="no-referrer" src="${a.poster}" alt="${a.title}" class="watchlist-poster" loading="lazy" onerror="window.animeApp.recoverCover(this, this.alt, 'ANIME', '${a.banner || ''}')" />
+                                <img src="${a.poster}" alt="${a.title}" class="watchlist-poster" loading="lazy" onerror="window.animeApp.recoverCover(this, this.alt, 'ANIME', '${a.banner || ''}')" />
                                 <div class="watchlist-details">
                                     <h4>${a.title}</h4>
                                     <span>⭐ ${a.rating} • ${a.episodes}</span>
@@ -768,7 +768,7 @@ class AnimeVerseApp {
 
         resultsContainer.innerHTML = matches.map(a => `
             <div class="quick-result-item" onclick="window.animeApp.openAnimeModal('${a.id}'); window.animeApp.closeSearchModal();">
-                <img referrerpolicy="no-referrer" src="${a.poster}" alt="${a.title}" loading="lazy" onerror="window.animeApp.recoverCover(this, this.alt, 'ANIME', '${a.banner || ''}')" />
+                <img src="${a.poster}" alt="${a.title}" loading="lazy" onerror="window.animeApp.recoverCover(this, this.alt, 'ANIME', '${a.banner || ''}')" />
                 <div class="res-info">
                     <strong>${a.title}</strong>
                     <span>${a.japaneseTitle} • ⭐ ${a.rating}</span>
