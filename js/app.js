@@ -71,8 +71,8 @@ class AnimeVerseApp {
             return `
                 <article class="anime-card tilt-card" data-id="${anime.id}">
                     <div class="card-glare"></div>
-                    <div class="card-image-wrap">
-                        <img src="${anime.poster}" alt="${anime.title}" class="card-poster" loading="lazy" />
+                    <div class="card-image-wrap" data-fallback="${anime.title}">
+                        <img src="${anime.poster}" alt="${anime.title}" class="card-poster" loading="lazy" onerror="this.onerror=null;this.hidden=true;this.parentElement.classList.add('image-unavailable');" />
                         <div class="card-overlay"></div>
                         <div class="card-top-badges">
                             <span class="score-badge">
@@ -131,8 +131,8 @@ class AnimeVerseApp {
             return `
                 <div class="manga-card tilt-card" data-id="${manga.id}">
                     <div class="card-glare"></div>
-                    <div class="manga-cover-wrap">
-                        <img src="${manga.cover}" alt="${manga.title}" class="manga-cover" loading="lazy" />
+                    <div class="manga-cover-wrap" data-fallback="${manga.title}">
+                        <img src="${manga.cover}" alt="${manga.title}" class="manga-cover" loading="lazy" onerror="this.onerror=null;this.hidden=true;this.parentElement.classList.add('image-unavailable');" />
                         <div class="manga-spine"></div>
                         <span class="manga-tag">${manga.tag}</span>
                     </div>
@@ -146,14 +146,23 @@ class AnimeVerseApp {
                         <p class="manga-synopsis">${manga.synopsis}</p>
                         <div class="manga-footer">
                             <span class="manga-status">${manga.status}</span>
-                            <button class="btn btn-subtle" onclick="window.animeApp.showToast('Chapter preview for ${manga.title} unlocked!', 'success')">
-                                Read Chapter 1
+                            <button class="btn btn-subtle" onclick="window.animeApp.openMangaSearch('${manga.id}')">
+                                Find Reading Options ↗
                             </button>
                         </div>
                     </div>
                 </div>
             `;
         }).join('');
+    }
+
+    // Open a title-specific search so visitors can find legitimate reading options.
+    // This static template does not host or distribute manga chapters.
+    openMangaSearch(mangaId) {
+        const manga = MANGA_DATA.find(item => item.id === mangaId);
+        if (!manga) return;
+        const query = encodeURIComponent(manga.title + ' official manga publisher legal reading options');
+        window.open('https://www.google.com/search?q=' + query, '_blank', 'noopener,noreferrer');
     }
 
     // --- CHARACTER VAULT RENDERING ---
@@ -167,7 +176,7 @@ class AnimeVerseApp {
                 const isActive = c.id === this.activeCharacterId;
                 return `
                     <button class="char-thumb-btn ${isActive ? 'active' : ''}" onclick="window.animeApp.switchCharacter('${c.id}')" title="${c.name}">
-                        <img src="${c.image}" alt="${c.name}" />
+                        <img src="${c.image}" alt="${c.name}" onerror="this.onerror=null;this.hidden=true;" />
                         <span class="thumb-name">${c.name.split(' ')[0]}</span>
                     </button>
                 `;
@@ -197,9 +206,9 @@ class AnimeVerseApp {
 
         displayContainer.innerHTML = `
             <div class="char-spotlight-card" style="--char-glow: ${char.glowColor}">
-                <div class="char-art-col">
+                <div class="char-art-col" data-fallback="${char.name}">
                     <div class="char-art-aura" style="background: radial-gradient(circle, ${char.glowColor}44 0%, transparent 70%);"></div>
-                    <img src="${char.image}" alt="${char.name}" class="char-featured-img" />
+                    <img src="${char.image}" alt="${char.name}" class="char-featured-img" onerror="this.onerror=null;this.hidden=true;this.parentElement.classList.add('image-unavailable');" />
                     <div class="char-kanji-watermark">${char.japaneseName}</div>
                 </div>
 
@@ -357,10 +366,11 @@ class AnimeVerseApp {
                         </div>
 
                         <div class="modal-section">
-                            <h4 class="modal-sec-title">OFFICIAL TRAILER SIMULATOR</h4>
+                            <h4 class="modal-sec-title">TRAILER PREVIEW</h4>
                             <div class="trailer-preview-frame">
-                                <iframe src="${anime.trailerUrl}" title="${anime.title} Trailer" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                <iframe src="${anime.trailerUrl}" title="${anime.title} Trailer" frameborder="0" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                             </div>
+                            <a class="trailer-external-link" href="https://www.youtube.com/results?search_query=${encodeURIComponent(anime.title + ' official trailer')}" target="_blank" rel="noopener noreferrer">Can't play the embed? Find the trailer on YouTube ↗</a>
                         </div>
 
                         <div class="modal-section">
@@ -368,7 +378,7 @@ class AnimeVerseApp {
                             <div class="modal-cast-row">
                                 ${anime.characters ? anime.characters.map(c => `
                                     <div class="cast-card">
-                                        <img src="${c.avatar}" alt="${c.name}" class="cast-avatar" />
+                                        <img src="${c.avatar}" alt="${c.name}" class="cast-avatar" onerror="this.onerror=null;this.hidden=true;" />
                                         <div class="cast-info">
                                             <span class="cast-name">${c.name}</span>
                                             <span class="cast-role">${c.role}</span>
