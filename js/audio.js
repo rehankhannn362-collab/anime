@@ -10,6 +10,7 @@ class AnimeAudioEngine {
         this.ambientGain = null;
         this.ambientVoices = [];
         this.chordTimer = null;
+        this.melodyTimer = null;
         this.chordIndex = 0;
         this.masterGain = null;
     }
@@ -133,6 +134,15 @@ class AnimeAudioEngine {
             this.ambientGain.gain.setTargetAtTime(0.015 + (this.chordIndex % 2) * 0.002, time, 3.5);
         };
         this.chordTimer = setInterval(evolve, 9500);
+
+        // A sparse, low-volume melody adds movement without sounding like a notification loop.
+        const melody = [523.25, 659.25, 783.99, 659.25, 587.33, 523.25, 440, 587.33];
+        let melodyIndex = 0;
+        this.melodyTimer = setInterval(() => {
+            if (!this.isAmbientPlaying || this.isMuted) return;
+            this.playTone(melody[melodyIndex], 1.15, 0.0022, 'sine');
+            melodyIndex = (melodyIndex + 1) % melody.length;
+        }, 2400);
     }
 
     stopAmbientSynth() {
@@ -141,7 +151,9 @@ class AnimeAudioEngine {
         this.ambientGain.gain.cancelScheduledValues(now);
         this.ambientGain.gain.setTargetAtTime(0.0001, now, 0.2);
         if (this.chordTimer) clearInterval(this.chordTimer);
+        if (this.melodyTimer) clearInterval(this.melodyTimer);
         this.chordTimer = null;
+        this.melodyTimer = null;
         const voices = this.ambientVoices;
         this.isAmbientPlaying = false;
         setTimeout(() => {
