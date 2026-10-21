@@ -595,7 +595,6 @@ class AnimeVerseApp {
         if (newsletterForm) {
             newsletterForm.addEventListener('submit', (e) => {
                 e.preventDefault();
-                const email = newsletterForm.querySelector('input[type="email"]').value;
                 this.showToast('Demo only: connect a newsletter service before collecting subscriptions.', 'info');
             });
         }
