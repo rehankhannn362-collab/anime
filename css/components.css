@@ -2303,3 +2303,41 @@
         padding: 22px 16px;
     }
 }
+
+
+/* Artwork resilience: keep the layout polished if a remote image blocks hotlinking. */
+.card-image-wrap.image-unavailable,
+.manga-cover-wrap.image-unavailable,
+.hero-character-card.image-unavailable,
+.char-art-col.image-unavailable {
+    background: radial-gradient(circle at 50% 25%, rgba(255, 42, 133, 0.24), transparent 48%), linear-gradient(145deg, #17102c, #080b17 68%, #10202e);
+}
+.card-image-wrap.image-unavailable::after,
+.manga-cover-wrap.image-unavailable::after,
+.hero-character-card.image-unavailable::after,
+.char-art-col.image-unavailable::after {
+    content: attr(data-fallback);
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    padding: 1rem;
+    color: #f4eaff;
+    font-size: clamp(.75rem, 1.3vw, 1rem);
+    font-weight: 800;
+    letter-spacing: .12em;
+    text-align: center;
+    overflow-wrap: anywhere;
+    text-shadow: 0 0 18px rgba(255, 42, 133, .45);
+    pointer-events: none;
+}
+.trailer-external-link {
+    display: inline-flex;
+    margin-top: .8rem;
+    color: var(--neon-cyan, #65f3ff);
+    font-size: .88rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: color .2s ease, transform .2s ease;
+}
+.trailer-external-link:hover { color: #fff; transform: translateX(3px); }
