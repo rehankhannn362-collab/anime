@@ -251,7 +251,7 @@ class AnimeVerseApp {
                 const isActive = c.id === this.activeCharacterId;
                 return `
                     <button class="char-thumb-btn ${isActive ? 'active' : ''}" onclick="window.animeApp.switchCharacter('${c.id}')" title="${c.name}">
-                        <img referrerpolicy="no-referrer" src="${c.image}" alt="${c.name}" onerror="this.onerror=null;this.hidden=true;" />
+                        <img referrerpolicy="no-referrer" src="${c.image}" alt="${c.name}" onerror="window.animeApp.recoverCharacterImage(this, this.alt)" />
                         <span class="thumb-name">${c.name.split(' ')[0]}</span>
                     </button>
                 `;
@@ -283,7 +283,7 @@ class AnimeVerseApp {
             <div class="char-spotlight-card" style="--char-glow: ${char.glowColor}">
                 <div class="char-art-col" data-fallback="${char.name}">
                     <div class="char-art-aura" style="background: radial-gradient(circle, ${char.glowColor}44 0%, transparent 70%);"></div>
-                    <img referrerpolicy="no-referrer" src="${char.image}" alt="${char.name}" class="char-featured-img" onerror="this.onerror=null;this.hidden=true;this.parentElement.classList.add('image-unavailable');" />
+                    <img referrerpolicy="no-referrer" src="${char.image}" alt="${char.name}" class="char-featured-img" onerror="window.animeApp.recoverCharacterImage(this, this.alt)" />
                     <div class="char-kanji-watermark">${char.japaneseName}</div>
                 </div>
 
@@ -456,7 +456,7 @@ class AnimeVerseApp {
                             <div class="modal-cast-row">
                                 ${anime.characters ? anime.characters.map(c => `
                                     <div class="cast-card">
-                                        <img referrerpolicy="no-referrer" src="${c.avatar}" alt="${c.name}" class="cast-avatar" onerror="this.onerror=null;this.hidden=true;" />
+                                        <img referrerpolicy="no-referrer" src="${c.avatar}" alt="${c.name}" class="cast-avatar" onerror="window.animeApp.recoverCharacterImage(this, this.alt)" />
                                         <div class="cast-info">
                                             <span class="cast-name">${c.name}</span>
                                             <span class="cast-role">${c.role}</span>
