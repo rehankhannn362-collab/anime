@@ -1,102 +1,93 @@
-# 🌸 AnimeVerse — Anime & Manga Discovery Template
+# 🌸 AnimeVerse — Anime & Manga Discovery Website Template
 
-**AnimeVerse** is a front-end anime and manga discovery concept with a futuristic cyberpunk visual style, glassmorphism UI, animated sakura petals, interactive cards, a watchlist, character spotlights, and optional Web Audio ambience. It is a static demo, not a streaming service; it has no backend, account system, real newsletter subscription, or message delivery configured.
+A responsive, front-end website template for anime and manga discovery, built with HTML, CSS, and vanilla JavaScript. AnimeVerse combines a neon cyberpunk aesthetic, glassmorphism panels, animated sakura petals, interactive discovery cards, character profiles, and a locally saved watchlist.
 
----
+> **Important:** AnimeVerse is a front-end demo/template, not a streaming platform. It does not provide anime episodes, manga chapters, user accounts, server-side storage, payments, or a configured contact/newsletter backend.
 
-## ✨ Features & Visual Highlights
+## ✨ Features
 
-1. **Futuristic Japanese & Cyberpunk Aesthetic**:
-   - Deep cosmic obsidian/navy palette (`#060713`, `#090a1a`) with electric neon pink (`#ff2a85`), cyan (`#00f0ff`), violet (`#9d4edd`), and gold (`#ffd166`) accents.
-   - Authentic Japanese calligraphy badges (`「アニメの世界へようこそ」`, `人気作`, `漫画文庫`, `英雄録`).
-   - Frosted glassmorphism cards with `backdrop-filter: blur(16px)` and subtle glowing neon borders.
+- **Responsive layout:** desktop and mobile styling, including a mobile-friendly saved-watchlist layout.
+- **Cyberpunk visual design:** dark navy/black surfaces, neon pink/cyan/violet accents, glowing borders, and glassmorphism effects.
+- **Animated hero section:** gradient title, floating visual elements, ambient effects, and call-to-action links.
+- **Sakura particle effect:** animated petals with a toggle control.
+- **Anime discovery:** curated anime cards, search, category filters, sorting, and detail modals.
+- **Manga discovery:** manga cards and title-specific links to search for legitimate reading options; no chapters are hosted by this template.
+- **Character Vault:** interactive character selector with stat bars, signature techniques, and character quotes.
+- **Saved watchlist:** add/remove items and save the list in the browser using `localStorage`.
+- **Ambient audio and UI sounds:** optional procedural audio generated with the Web Audio API. Browsers may require a user gesture before audio can play.
+- **Trailer links:** anime detail views include trailer embeds or search fallbacks, depending on availability.
+- **Graceful image fallbacks:** some remote artwork failures display a styled fallback instead of a broken-image icon.
+- **No build step:** uses standard HTML, CSS, and JavaScript.
 
-2. **Fixed Glassmorphism Navigation Bar**:
-   - Frosted blur header that dynamically darkens and adds neon glow on scroll.
-   - Scrollspy highlighting active section.
-   - Quick Search modal trigger (`Ctrl + K`).
-   - Sakura Petal physics toggle switch (🌸).
-   - Cyberpunk Ambient Audio Synthesizer toggle (🎵).
-   - Persistent Watchlist drawer with live counter.
-   - Mobile-responsive hamburger menu with smooth slide-down animation.
+## 🧰 Tech stack
 
-3. **Cinematic Full-Screen Hero Section**:
-   - Large animated moving gradient title: `"WELCOME TO ANIMEVERSE"`.
-   - Subtitle: `"Where anime worlds come alive."`
-   - High-impact CTA buttons (`EXPLORE ANIME`, `DISCOVER MANGA`) with neon glow, ripple shine, and hover scale.
-   - Floating Anime Mascot with multi-layer glowing aura, idle levitation, and 3D cursor parallax tracking.
-   - Live metrics ticker (2,500+ Series, 10,000+ Manga Chapters, 99.8% Community Score).
-   - Animated `"SCROLL TO EXPLORE ↓"` indicator.
+- HTML5
+- CSS3 (responsive media queries, animations, grid/flexbox, glassmorphism)
+- Vanilla JavaScript (ES6+)
+- Browser APIs: Web Audio API and `localStorage`
+- External image and video resources where configured in the demo
 
-4. **HTML5 Canvas Sakura Petal Particle Engine**:
-   - Natural wind drift, oscillation, and 3D z-axis fluttering rotation.
-   - Varied petal shapes, translucent pink gradients, and mouse wind-trail reaction.
-   - Lightweight, zero-lag 60 FPS performance.
+## 🚀 Run locally
 
-5. **Popular Anime Showcase & 3D Tilt Cards**:
-   - Filter chips (All, Shonen Legends, Dark Fantasy, Action, Supernatural).
-   - Instant live search and sorting by Rating, Episode Count, and Alphabetical order.
-   - Feature cards for *One Piece, Jujutsu Kaisen, Demon Slayer, Attack on Titan, Naruto Shippuden, Dragon Ball Super, Solo Leveling, Bleach TYBW, Chainsaw Man*.
-   - 3D perspective mouse tilt with dynamic specular sheen and poster zoom.
-   - Interactive "VIEW DETAILS" button opening the full anime modal.
-   - "Add to Watchlist" bookmarking persisted in `localStorage`.
+1. Download or clone this repository.
+2. Keep the folder structure intact.
+3. Open `index.html` in a modern browser, or serve the folder using a local static web server.
+4. For the best experience, allow network access for remote artwork and embedded video resources, and interact with the page before enabling audio.
 
-6. **Interactive Anime Details Modal**:
-   - Hero backdrop banner, studio tags, score breakdown, full synopsis, character cast list, and embedded official trailer video player simulator.
+No package installation or compilation is required.
 
-7. **Manga Discovery Showcase ("DISCOVER MANGA")**:
-   - 3D perspective manga volume covers (*Berserk, Vagabond, Tokyo Ghoul, Blue Lock*) with realistic spine and chapter reading triggers.
-
-8. **Legendary Character Vault**:
-   - Interactive avatar selector (*Gojo, Luffy, Levi, Tanjiro, Zoro*).
-   - Dynamic animated combat & aura metrics stat bars, signature techniques, and quotes.
-
-9. **Tokyo Synchronous Airing Schedule**:
-   - Weekday tabs (Mon–Sun) with Japanese kanji days and alert notification triggers.
-
-10. **Cyberpunk Web Audio Synth**:
-    - Procedural audio engine generating soothing ambient chord pads and futuristic UI sound effects on button hovers and clicks.
-
----
-
-## 🚀 How to Run
-
-1. Open `index.html` directly in any modern web browser (Google Chrome, Microsoft Edge, Mozilla Firefox, Safari, Brave).
-2. No installation, backend, or build step required — pure standard HTML5, CSS3, and ES6 JavaScript!
-
----
-
-## 📁 File Structure
+## 📁 Project structure
 
 ```
 animeverse/
-├── index.html              # Main HTML document
-├── README.md               # Documentation & overview
+├── index.html
+├── README.md
 ├── css/
-│   ├── style.css           # Core theme variables, typography, reset, buttons
-│   ├── animations.css      # Keyframes for text gradients, glows, levitation, radar
-│   └── components.css      # Navbar, Hero, Cards, 3D tilt, Modals, Vault, Schedule
+│   ├── style.css        # Base styles, theme variables, layout and typography
+│   ├── animations.css   # Animation keyframes and motion effects
+│   └── components.css   # Navigation, cards, modals, watchlist and responsive styles
 └── js/
-    ├── anime-data.js       # Complete anime, manga, character, and schedule database
-    ├── sakura.js           # High-performance HTML5 Canvas Sakura particle engine
-    ├── tilt.js             # 3D interactive card tilt & hero mouse parallax
-    ├── audio.js            # Web Audio API synthesizer for ambient synth & SFX
-    └── app.js              # Application logic, filters, search, modals, watchlist
+    ├── anime-data.js    # Demo anime, manga, character and schedule data
+    ├── sakura.js        # Canvas sakura particle effect
+    ├── tilt.js          # Card tilt and parallax effects
+    ├── audio.js         # Web Audio ambience and UI sounds
+    └── app.js           # Search, filters, modals, watchlist and application behavior
 ```
 
+## 🎨 Customization
 
-## ⚠️ Before commercial use
+- **Change content:** edit the anime, manga, character, and schedule data in `js/anime-data.js`.
+- **Change colors and appearance:** start with the theme variables and base styles in `css/style.css`, then adjust component styles in `css/components.css`.
+- **Adjust animations:** edit `css/animations.css` and the relevant JavaScript modules.
+- **Update links:** replace demo social links and external trailer/reading links with destinations you own or are authorized to use.
+- **Replace artwork:** use original artwork or assets you have permission to use. Keep image paths valid when changing local assets.
 
-This repository currently references third-party anime and character names, artwork hosted by external sites, and YouTube trailers. These assets and franchises are not owned by the template author. **Do not redistribute or sell the project with third-party artwork or branding unless you have the necessary rights.** Replace linked artwork with original or properly licensed assets, review all names and copy, and provide your own licensing terms before selling a customized version. The newsletter and contact forms are demo interactions only and do not send or store submissions.
+## ⚠️ Important limitations
 
-## Accessibility and motion
+- The watchlist is stored in the current browser's `localStorage`; it does not sync across devices or accounts.
+- Search, filters, character details, and schedule are front-end demo features based on the data bundled with the project; there is no live catalog API configured.
+- The project does not stream, host, or unlock anime episodes or manga chapters.
+- Contact/newsletter interactions do not send messages or store submissions on a server.
+- There is no login, user management, admin dashboard, database, payment system, or backend.
+- External artwork, fonts, embeds, and image providers can change, block hotlinking, or become unavailable. Their display depends on the provider and network.
+- The site has been manually refined for responsive behavior, but rendering can differ across browsers and devices. Test it in your intended deployment environment before publishing.
 
-The template includes visible keyboard focus styles and a reduced-motion preference override. Animations and external images/fonts may render differently depending on the user's browser, device, and network.
+## 📜 Artwork, trademarks and commercial use
 
+This template references third-party anime/manga titles, character names, artwork, and video resources. Those franchises, trademarks, and third-party assets are **not automatically licensed to you** by downloading or purchasing this template.
 
-## Template links and artwork behavior
+Before redistributing, reselling, or using the site commercially:
+1. Review the rights and license terms for every included image, font, icon, video, and other third-party asset.
+2. Replace assets that you do not have permission to redistribute with original or properly licensed alternatives.
+3. Do not imply that the template is officially affiliated with any anime studio, publisher, streaming service, or rights holder.
+4. Add your own license and terms for the code you are entitled to distribute, and clearly describe any third-party components or exclusions.
 
-- Manga cards use **Find Reading Options** to open a title-specific search for legitimate publisher/reading options; this demo does not host chapters.
-- Anime detail modals include a YouTube search fallback if an embedded trailer cannot play.
-- Footer social icons currently point to the platforms' homepages. Replace these with the buyer's own profile, community invite, or channel URLs.
-- If a remote artwork host blocks an image, the card shows a styled title fallback instead of a broken-image icon.
+**No legal advice or guarantee of commercial clearance is provided.** The safest resale package is a version containing only your own code and original or clearly licensed assets, with the included demo content and external artwork appropriately removed or replaced.
+
+## ♿ Accessibility and motion
+
+The template includes keyboard focus styling and a reduced-motion preference override for selected animations. This is not a certification of full accessibility compliance; review keyboard navigation, contrast, labels, and screen-reader behavior before production use.
+
+---
+
+Built as a customizable front-end concept for anime and manga discovery.
