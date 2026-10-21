@@ -92,3 +92,11 @@ This repository currently references third-party anime and character names, artw
 ## Accessibility and motion
 
 The template includes visible keyboard focus styles and a reduced-motion preference override. Animations and external images/fonts may render differently depending on the user's browser, device, and network.
+
+
+## Template links and artwork behavior
+
+- Manga cards use **Find Reading Options** to open a title-specific search for legitimate publisher/reading options; this demo does not host chapters.
+- Anime detail modals include a YouTube search fallback if an embedded trailer cannot play.
+- Footer social icons currently point to the platforms' homepages. Replace these with the buyer's own profile, community invite, or channel URLs.
+- If a remote artwork host blocks an image, the card shows a styled title fallback instead of a broken-image icon.
