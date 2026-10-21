@@ -71,31 +71,47 @@ class AnimeVerseApp {
         }
     }
 
-    // Recover character portraits using the public Jikan character catalogue.
+    // Recover character portraits through AniList first, then Jikan as a fallback.
     async recoverCharacterImage(img, characterName) {
-        if (!img || img.dataset.characterRecovery === 'done' || img.dataset.characterRecovery === 'failed') return;
+        if (!img || img.dataset.characterRecovery === 'done' || img.dataset.characterRecovery === 'failed' || img.dataset.characterRecovery === 'trying') return;
         img.dataset.characterRecovery = 'trying';
-        try {
-            const response = await fetch('https://api.jikan.moe/v4/characters?q=' + encodeURIComponent(characterName) + '&limit=1');
-            if (!response.ok) throw new Error('Character image lookup unavailable');
-            const payload = await response.json();
-            const match = payload && payload.data && payload.data[0];
-            const imageUrl = match && match.images && match.images.webp && match.images.webp.image_url
-                || match && match.images && match.images.jpg && match.images.jpg.image_url;
-            if (!imageUrl) throw new Error('No character portrait found');
-            img.dataset.characterRecovery = 'done';
-            img.src = imageUrl;
-            img.onerror = () => {
-                img.dataset.characterRecovery = 'failed';
-                img.hidden = true;
-                const wrap = img.closest('.char-art-col, .char-thumb-btn, .cast-card');
-                if (wrap) wrap.classList.add('image-unavailable');
-            };
-        } catch (error) {
+        const hideUnavailable = () => {
             img.dataset.characterRecovery = 'failed';
             img.hidden = true;
             const wrap = img.closest('.char-art-col, .char-thumb-btn, .cast-card');
             if (wrap) wrap.classList.add('image-unavailable');
+        };
+        try {
+            let imageUrl = '';
+            try {
+                const query = 'query ($search: String) { Character(search: $search) { image { large medium } } }';
+                const response = await fetch('https://graphql.anilist.co', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                    body: JSON.stringify({ query, variables: { search: characterName } })
+                });
+                if (response.ok) {
+                    const payload = await response.json();
+                    const image = payload && payload.data && payload.data.Character && payload.data.Character.image;
+                    imageUrl = image && (image.large || image.medium) || '';
+                }
+            } catch (error) { /* Try the secondary catalogue below. */ }
+            if (!imageUrl) {
+                const response = await fetch('https://api.jikan.moe/v4/characters?q=' + encodeURIComponent(characterName) + '&limit=5');
+                if (!response.ok) throw new Error('Character image lookup unavailable');
+                const payload = await response.json();
+                const entries = payload && payload.data || [];
+                const normalized = characterName.toLowerCase().replace(/[^a-z0-9]/g, '');
+                const match = entries.find(item => (item.name || '').toLowerCase().replace(/[^a-z0-9]/g, '') === normalized) || entries[0];
+                imageUrl = match && match.images && match.images.webp && match.images.webp.image_url
+                    || match && match.images && match.images.jpg && match.images.jpg.image_url || '';
+            }
+            if (!imageUrl) throw new Error('No character portrait found');
+            img.onerror = hideUnavailable;
+            img.onload = () => { img.dataset.characterRecovery = 'done'; };
+            img.src = imageUrl;
+        } catch (error) {
+            hideUnavailable();
         }
     }
 
